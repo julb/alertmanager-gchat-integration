@@ -1,0 +1,15 @@
+{%- if labels.severity == 'critical' -%}
+{% set icon_unicode = '\u274C\u274C' %}
+{%- elif labels.severity == 'error' -%}
+{% set icon_unicode = '\u274C' %}
+{%- elif labels.severity == 'warning' -%}
+{% set icon_unicode = '\u26A0' %}
+{%- elif labels.severity == 'info' -%}
+{% set icon_unicode = '\u2139' %}
+{%- endif -%}
+{{ icon_unicode }} *{{ labels.alertname }} - {{ status | title }}* (Origin: _{{ origin }}_)
+```
+{% for key, value in annotations.items() -%}
+{{ key | title }}: {{ value }}
+{% endfor -%}
+```

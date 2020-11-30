@@ -1,0 +1,44 @@
+{
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "AlertCritical",
+                "severity": "critical"
+            },
+            "annotations": {
+                "message": "AlertCritical triggered."
+            }
+        },
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "AlertError",
+                "severity": "error"
+            },
+            "annotations": {
+                "message": "AlertError triggered."
+            }
+        },
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "AlertWarning",
+                "severity": "warning"
+            },
+            "annotations": {
+                "message": "AlertWarning triggered."
+            }
+        },
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "AlertInfo",
+                "severity": "info"
+            },
+            "annotations": {
+                "message": "AlertInfo triggered."
+            }
+        }
+    ]
+}
