@@ -1,0 +1,5 @@
+-e .
+autopep8
+pycodestyle
+pylint
+bumpversion
