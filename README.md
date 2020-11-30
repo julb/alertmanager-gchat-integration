@@ -70,6 +70,10 @@ The following environment variables are also available:
 | PORT                 | The listening port for the application. | `8080`             |
 | CONFIG_FILE_LOCATION | The config.toml file path.              | `/app/config.toml` |
 
+## Helm chart
+
+A [Helm chart](https://github.com/julb/helm-charts/blob/main/julb/alertmanager-gchat-integration/README.md) is available to install this runtime.
+
 ## Contributing
 
 This project is totally open source and contributors are welcome.
