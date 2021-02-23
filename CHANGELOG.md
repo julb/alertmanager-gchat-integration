@@ -1,14 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [1.0.0](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.0) (2020-11-30)
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/9ed168fb8b10065d6ed8ccb5242979da83466dd6...1.0.0)
 
-## [Unreleased]
+**Merged pull requests:**
 
-## [1.0.0] - 2020-11-30
+- Provide a initial version of the alertmanager-gchat-integration appli… [\#1](https://github.com/julb/alertmanager-gchat-integration/pull/1) ([julb](https://github.com/julb))
 
-### Added
 
--   Initial version of the project.
+
