@@ -8,7 +8,10 @@
             },
             "annotations": {
                 "message": "AlertCritical triggered."
-            }
+            },
+            "startsAt": "2020-01-01T00:00:00.000Z",
+            "endsAt": "2020-01-01T00:00:00.000Z",
+            "updatedAt": "2020-01-01T00:00:00.000Z"
         },
         {
             "status": "firing",

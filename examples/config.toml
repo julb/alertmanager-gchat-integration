@@ -1,0 +1,9 @@
+[app.notification]
+# Helpful to indicate the origin of the message. Default to HOSTNAME.
+# origin = "custom-origin"
+
+# Optional Jinja2 custom template to print message to GChat.
+# custom_template_path = "<file>.json.j2"
+
+[app.room.test]
+notification_url = "" 
