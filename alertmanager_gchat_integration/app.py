@@ -3,6 +3,7 @@ import os
 import requests
 from flask import Flask, abort, request
 from flask.logging import create_logger
+import iso8601
 from prometheus_flask_exporter import PrometheusMetrics
 import toml
 
@@ -66,6 +67,11 @@ def post_alerts():
         render_payload = {
             'origin': origin
         }
+        for field in ["startsAt", "endsAt", "updatedAt"]:
+            try:
+                alert[f'{field}DateTime'] = iso8601.parse_date(alert[field])
+            except (KeyError, TypeError, ValueError):
+                pass
         render_payload.update(alert)
         text_alert = J2_TEMPLATE_ENGINE.render(render_payload)
 
