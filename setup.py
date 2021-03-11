@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="alertmanager-gchat-integration",
-    version="1.0.3",
+    version="1.0.4",
     description="The application starts a Web server which logs details of all incoming HTTP requests.",
     long_description=README,
     long_description_content_type="text/markdown",
