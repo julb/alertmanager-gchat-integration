@@ -16,7 +16,7 @@ CONFIG = toml.load(os.environ.get('CONFIG_FILE_LOCATION', 'config.toml'))
 
 # Logger Setup
 LOGGER = create_logger(app)
-LOGGER.setLevel(os.environ.get('LOGLEVEL', logging.INFO).upper())
+LOGGER.setLevel(os.environ.get('LOGLEVEL', logging.INFO))
 
 # Metrics set-up
 metrics = PrometheusMetrics(app)
