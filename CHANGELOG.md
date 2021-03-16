@@ -1,8 +1,20 @@
 # Changelog
 
+## [1.0.4](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.4) (2021-03-16)
+
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.3...1.0.4)
+
+**Merged pull requests:**
+
+- feat: parse dates in alert payload [\#2](https://github.com/julb/alertmanager-gchat-integration/pull/2) ([antoinerabany](https://github.com/antoinerabany))
+
+## [1.0.3](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.3) (2021-03-11)
+
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.2...1.0.3)
+
 ## [1.0.2](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.2) (2021-03-11)
 
-[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/v1...1.0.2)
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.1...1.0.2)
 
 **Merged pull requests:**
 
@@ -10,7 +22,7 @@
 
 ## [1.0.1](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.1) (2021-02-23)
 
-[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/latest...1.0.1)
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.0...1.0.1)
 
 ## [1.0.0](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.0) (2020-11-30)
 
