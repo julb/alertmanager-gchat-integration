@@ -9,9 +9,9 @@
             "annotations": {
                 "message": "AlertCritical triggered."
             },
-            "startsAt": "2020-01-01T00:00:00.000Z",
-            "endsAt": "2020-01-01T00:00:00.000Z",
-            "updatedAt": "2020-01-01T00:00:00.000Z"
+            "startsAt": "2020-12-15T20:37:57.226891198Z",
+            "endsAt": "2020-12-15T20:37:57.226891198Z",
+            "updatedAt": "2020-12-15T20:37:57.226891198Z"
         },
         {
             "status": "firing",
