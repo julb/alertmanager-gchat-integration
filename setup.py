@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="alertmanager-gchat-integration",
-    version="1.0.4",
+    version="1.0.5",
     description="The application provides a Webhook integration for Prometheus AlertManager to push alerts to Google Chat rooms.",
     long_description=README,
     long_description_content_type="text/markdown",
