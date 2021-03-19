@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.5) (2021-03-19)
+
+[Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.4...1.0.5)
+
+**Merged pull requests:**
+
+- feat: add possibility to send cards [\#4](https://github.com/julb/alertmanager-gchat-integration/pull/4) ([antoinerabany](https://github.com/antoinerabany))
+
 ## [1.0.4](https://github.com/julb/alertmanager-gchat-integration/tree/1.0.4) (2021-03-16)
 
 [Full Changelog](https://github.com/julb/alertmanager-gchat-integration/compare/1.0.3...1.0.4)
