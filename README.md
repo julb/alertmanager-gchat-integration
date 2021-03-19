@@ -21,6 +21,9 @@ The application expects a `config.toml` file like this:
 # Optional Jinja2 custom template to print message to GChat.
 # custom_template_path = "<file>.json.j2"
 
+# Optional true to send the message as a Gchat card
+# use_cards = true
+
 [app.room.<room-name>]
 notification_url = "https://chat.googleapis.com/v1/spaces/<space-id>/messages?key=<key>&token=<token>&threadKey=<threadId>"
 ```
@@ -32,6 +35,9 @@ The file may be:
 
 Also, the application provides a built-in template for GChat notification located [here](./alertmanager_gchat_integration/default-notification-template.json.j2).
 If you wish to customize it, create a custom version and use `app.notification.custom_template_path`.
+
+By default, the message will be sent as a [basic message](https://developers.google.com/hangouts/chat/reference/message-formats/basic).
+If you wish to use [cards](https://developers.google.com/hangouts/chat/reference/message-formats/cards) set `app.notification.use_cards` to `true`.
 
 When the application is started, the following endpoints are available:
 

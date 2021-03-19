@@ -1,11 +1,13 @@
 import logging
 import os
+import json
 import requests
 from flask import Flask, abort, request
 from flask.logging import create_logger
 import iso8601
 from prometheus_flask_exporter import PrometheusMetrics
 import toml
+
 
 from .j2_template_engine import load_j2_template_engine
 from . import __version__
@@ -73,14 +75,16 @@ def post_alerts():
             except (KeyError, TypeError, ValueError):
                 pass
         render_payload.update(alert)
-        text_alert = J2_TEMPLATE_ENGINE.render(render_payload)
+        rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
 
         # Post request.
+        if CONFIG['app']['notification'].get('use_cards'):
+            post_request_data = {'cards': json.loads(rendered_alert)}
+        else:
+            post_request_data = {'text': rendered_alert}
         post_request_details = requests.post(
             notification_url,
-            json={
-                'text': text_alert
-            },
+            json=post_request_data,
             verify=False)
 
         if post_request_details.ok:
