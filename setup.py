@@ -34,4 +34,12 @@ setup(
         "jinja2",
         "iso8601==0.1.14",
     ],
+    extra_require={
+        "dev": [
+            "autopep8"
+            "pycodestyle"
+            "pylint"
+            "bumpversion"
+        ]
+    }
 )

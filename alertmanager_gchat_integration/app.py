@@ -14,12 +14,13 @@ from . import __version__
 
 app = Flask(__name__)
 
-# Load configuration file.
-CONFIG = toml.load(os.environ.get('CONFIG_FILE_LOCATION', 'config.toml'))
-
 # Logger Setup
 LOGGER = create_logger(app)
 LOGGER.setLevel(os.environ.get('LOGLEVEL', logging.INFO))
+
+# Load configuration file.
+CONFIG = toml.load(os.environ.get('CONFIG_FILE_LOCATION', 'config.toml'))
+USE_CARDS = CONFIG['app']['notification'].get('use_cards')
 
 # Metrics set-up
 metrics = PrometheusMetrics(app)
@@ -41,6 +42,21 @@ def healthz():
     return ''
 
 
+def post_request(url: str, post_request_data):
+    post_request_details = requests.post(
+        url,
+        json=post_request_data,
+        verify=False)
+
+    if post_request_details.ok:
+        LOGGER.info('Alert message posted successfully.')
+    else:
+        LOGGER.error('Alert message failed to be posted.')
+        LOGGER.error('%s - %s',
+                        str(post_request_details.status_code), str(post_request_details.text)
+                        )
+
+
 @app.route('/alerts', methods=['POST'])
 def post_alerts():
     """ Parses the given message and post it to the indicated channel. """
@@ -48,24 +64,30 @@ def post_alerts():
     # Get room name and validate.
     room_name = request.args.get('room', '')
     if room_name == '':
-        LOGGER.debug('Room <%s> not given as parameter.')
+        LOGGER.error('Room <%s> not given as parameter.', room_name)
         abort(400)
 
     # Check if room is defined in configuration.
     if room_name not in CONFIG['app']['room']:
-        LOGGER.debug('Room <%s> not present in configuration file.')
+        LOGGER.error('Room <%s> not present in configuration file.', room_name)
         abort(404)
 
-    # Notification URL.
     notification_url = CONFIG['app']['room'][room_name]['notification_url']
-    if 'origin' in CONFIG['app']['notification']:
-        origin = CONFIG['app']['notification']['origin']
-    else:
-        origin = os.environ.get('HOSTNAME', 'Unknown')
+    group_alerts = CONFIG['app']['room'][room_name].get('group_alerts', True)
+    origin = CONFIG['app']['notification'].get('origin', os.environ.get('HOSTNAME', 'Unknown'))
 
-    # Build a HTTP client request
+    if USE_CARDS and not group_alerts:
+        LOGGER.error(
+            'Room <%s>: group_alerts enabled but use_cards disabled, incompatible settings.',
+            room_name
+        )
+        abort(404)
+
+    LOGGER.info('Processing alert(s) for GChat room <%s>.', room_name)
+
+    # Render alerts
+    rendered_alerts = []
     for alert in request.json['alerts']:
-        # Render alert as text.
         render_payload = {
             'origin': origin
         }
@@ -76,23 +98,16 @@ def post_alerts():
                 pass
         render_payload.update(alert)
         rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
+        if USE_CARDS:
+            rendered_alert = json.loads(rendered_alert)
+        rendered_alerts.append(rendered_alert)
 
-        # Post request.
-        if CONFIG['app']['notification'].get('use_cards'):
-            post_request_data = {'cards': json.loads(rendered_alert)}
-        else:
-            post_request_data = {'text': rendered_alert}
-        post_request_details = requests.post(
-            notification_url,
-            json=post_request_data,
-            verify=False)
-
-        if post_request_details.ok:
-            LOGGER.info('Alert message posted successfully to GChat room <%s>.', room_name)
-        else:
-            LOGGER.error('Alert message failed to be posted to GChat room <%s>.', room_name)
-            LOGGER.error('%s - %s',
-                         str(post_request_details.status_code), str(post_request_details.text)
-                         )
+    if USE_CARDS:
+        post_request(notification_url, {'cards': rendered_alerts})
+    elif group_alerts:
+        post_request(notification_url, {'text': '\n'.join(rendered_alerts)})
+    else:
+        for rendered_alert in rendered_alerts:
+            post_request(notification_url, {'text': rendered_alert})
 
     return ''
