@@ -41,5 +41,6 @@ setup(
             "pylint"
             "bumpversion"
         ]
-    }
+    },
+    entry_points={"console_scripts": ["alertmanager-gchat-integration=alertmanager_gchat_integration.__main__:run"]},
 )

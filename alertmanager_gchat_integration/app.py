@@ -43,19 +43,13 @@ def healthz():
 
 
 def post_request(url: str, post_request_data):
-    post_request_details = requests.post(
-        url,
-        json=post_request_data,
-        verify=False)
+    post_request_details = requests.post(url, json=post_request_data)
 
     if post_request_details.ok:
         LOGGER.info('Alert message posted successfully.')
     else:
-        LOGGER.error('Alert message failed to be posted.')
-        LOGGER.error('%s - %s',
-                        str(post_request_details.status_code), str(post_request_details.text)
-                        )
-
+        LOGGER.error(f'Alert message failed to be posted: \n {post_request_data}')
+        raise Exception(f'Alert message failed to be posted. {post_request_details.status_code} - {post_request_details.text}')
 
 @app.route('/alerts', methods=['POST'])
 def post_alerts():
@@ -74,6 +68,7 @@ def post_alerts():
 
     notification_url = CONFIG['app']['room'][room_name]['notification_url']
     group_alerts = CONFIG['app']['room'][room_name].get('group_alerts', True)
+    group_alerts_truncate_after = CONFIG['app']['room'][room_name].get('truncate_after', 20)
     origin = CONFIG['app']['notification'].get('origin', os.environ.get('HOSTNAME', 'Unknown'))
 
     if USE_CARDS and not group_alerts:
@@ -86,8 +81,16 @@ def post_alerts():
     LOGGER.info('Processing alert(s) for GChat room <%s>.', room_name)
 
     # Render alerts
-    rendered_alerts = []
-    for alert in request.json['alerts']:
+    request_alert_list = request.json['alerts']
+    if group_alerts and group_alerts_truncate_after and len(request_alert_list) > group_alerts_truncate_after:
+        LOGGER.info(f'Truncating alerts to {group_alerts_truncate_after}...')
+        truncated_size = len(request_alert_list) - group_alerts_truncate_after
+        del request_alert_list[group_alerts_truncate_after:]
+        request_alert_list.append({'labels': {'alertname': f'And {truncated_size} other(s)'}, 'annotations': {}})
+
+    rendered_alert_list = []
+
+    for alert in request_alert_list:
         render_payload = {
             'origin': origin
         }
@@ -99,15 +102,15 @@ def post_alerts():
         render_payload.update(alert)
         rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
         if USE_CARDS:
-            rendered_alert = json.loads(rendered_alert)
-        rendered_alerts.append(rendered_alert)
+            rendered_alert = json.loads(rendered_alert, strict=False)
+        rendered_alert_list.append(rendered_alert)
 
     if USE_CARDS:
-        post_request(notification_url, {'cards': rendered_alerts})
+        post_request(notification_url, {'cards': rendered_alert_list})
     elif group_alerts:
-        post_request(notification_url, {'text': '\n'.join(rendered_alerts)})
+        post_request(notification_url, {'text': '\n'.join(rendered_alert_list)})
     else:
-        for rendered_alert in rendered_alerts:
+        for rendered_alert in rendered_alert_list:
             post_request(notification_url, {'text': rendered_alert})
 
     return ''
