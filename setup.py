@@ -34,4 +34,13 @@ setup(
         "jinja2",
         "iso8601==0.1.14",
     ],
+    extra_require={
+        "dev": [
+            "autopep8"
+            "pycodestyle"
+            "pylint"
+            "bumpversion"
+        ]
+    },
+    entry_points={"console_scripts": ["alertmanager-gchat-integration=alertmanager_gchat_integration.__main__:run"]},
 )

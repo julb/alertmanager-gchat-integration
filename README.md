@@ -57,7 +57,7 @@ $ CONFIG_FILE_LOCATION=config.toml python -m alertmanager_gchat_integration
 To execute the container, you should have a ~/.kube/config with the context pointing to the cluster.
 The user defined in the context should have the appropriate rights in th cluster to manage configmaps.
 
-## Starts the service
+## Start the service
 
 - Run container as root:
 
@@ -75,6 +75,12 @@ The following environment variables are also available:
 | -------------------- | --------------------------------------- | ------------------ |
 | PORT                 | The listening port for the application. | `8080`             |
 | CONFIG_FILE_LOCATION | The config.toml file path.              | `/app/config.toml` |
+
+## Test the service
+
+```bash
+curl http://localhost:80/alerts\?room\=my-room -XPOST -H "Content-Type: application/json" --data-binary "@examples/alerts.json"
+```
 
 ## Helm chart
 

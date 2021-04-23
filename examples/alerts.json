@@ -11,7 +11,8 @@
             },
             "startsAt": "2020-12-15T20:37:57.226891198Z",
             "endsAt": "2020-12-15T20:37:57.226891198Z",
-            "updatedAt": "2020-12-15T20:37:57.226891198Z"
+            "updatedAt": "2020-12-15T20:37:57.226891198Z",
+            "generatorURL": "http://foo.com/bar"
         },
         {
             "status": "firing",
@@ -21,7 +22,8 @@
             },
             "annotations": {
                 "message": "AlertError triggered."
-            }
+            },
+            "generatorURL": "http://foo.com/bar"
         },
         {
             "status": "firing",
@@ -31,7 +33,8 @@
             },
             "annotations": {
                 "message": "AlertWarning triggered."
-            }
+            },
+            "generatorURL": "http://foo.com/bar"
         },
         {
             "status": "firing",
@@ -41,7 +44,8 @@
             },
             "annotations": {
                 "message": "AlertInfo triggered."
-            }
+            },
+            "generatorURL": "http://foo.com/bar"
         }
     ]
 }
